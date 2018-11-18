@@ -1,0 +1,1 @@
+export { default as MenuBarContainer } from '../container/MenuBarContainer';
