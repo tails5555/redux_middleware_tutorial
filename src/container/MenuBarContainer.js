@@ -64,7 +64,7 @@ class MenuBarContainer extends React.Component {
         }
         return false;
     }
-
+    
     render(){
         const { isOpen, storeTypes, storeLoading, storeError } = this.state;
         const { location } = this.props.history;
@@ -115,6 +115,9 @@ class MenuBarContainer extends React.Component {
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink style={ pathname === '/' ? activeStyle : null } tag={Link} to="/"><i className="fas fa-home" /> 홈</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink style={ pathname === '/bbs/create' ? activeStyle : null } tag={Link} to="/bbs/create"><i className="fas fa-plus-square" /> 게시글 추가</NavLink>
                         </NavItem>
                         { loadingView }
                         { typeNavs }
