@@ -13,7 +13,7 @@ export default function(state = INITIAL_STATE, action) {
         case FETCH_ALL_BBS_TYPES_SUCCESS :
             return { ...state, typeList : { loading : false, error : null, types : action.payload }};
         case FETCH_ALL_BBS_TYPES_FAILURE :
-            return { ...state, typeList : { loading : false, error : action.payload }};
+            return { ...state, typeList : { ...state.typeList, loading : false, error : action.payload }};
 
         default :
             return state;

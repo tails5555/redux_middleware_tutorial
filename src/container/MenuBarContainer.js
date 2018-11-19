@@ -45,7 +45,7 @@ class MenuBarContainer extends React.Component {
             return {
                 storeTypes : types,
                 storeLoading : loading,
-                sotreError : error
+                storeError : error
             };
         }
         return null;
@@ -65,16 +65,11 @@ class MenuBarContainer extends React.Component {
         return false;
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.location !== prevProps.location) {
-            console.log(this.props.location);
-        }
-    }
-
     render(){
-        const { isOpen, storeTypes, selectType } = this.state;
+        const { isOpen, storeTypes, storeLoading, storeError } = this.state;
         const { location } = this.props.history;
         const { pathname, search } = location;
+        const queryModel = queryString.parse(search);
 
         const activeStyle = {
             backgroundColor : 'powderblue',
@@ -83,17 +78,32 @@ class MenuBarContainer extends React.Component {
             border : '2px solid blue',
             padding : '5px'
         }
+        
+        const loadingView = 
+            storeLoading ? 
+                <NavItem>
+                    <NavLink>
+                        <i className="fa fa-spinner fa-spin" /> 게시판 메뉴를 불러오는 중입니다...
+                    </NavLink>
+                </NavItem> : null;
 
-        console.log(search);
-        console.log(pathname);
-
-        const bbsNavs = storeTypes.map((type, idx) => (
-            <NavItem key={`nav_item_bbs_${idx}`}>
-                <NavLink style={ type.id === selectType ? activeStyle : null } tag={Link} to={`/bbs/list/_ref?type=${type.id}&pg=1`}><i className="fas fa-check-square" />
-                    { type && type.name }
-                </NavLink>
-            </NavItem>
-        ));
+        const typeNavs = 
+            storeTypes.length > 0 ?
+                storeTypes.map((type, idx) => (
+                    <NavItem key={`nav_item_bbs_${idx}`}>
+                        <NavLink style={ queryModel.type !== undefined && type.id === Number(queryModel.type) ? activeStyle : null } tag={Link} to={`/bbs/list/_ref?type=${type.id}&pg=1`}>
+                            <i className="fab fa-elementor" /> { type && type.name }
+                        </NavLink>
+                    </NavItem>
+                )) : null;
+        
+        const errorView =
+            storeError !== null ?
+                <NavItem>
+                    <NavLink>
+                        <i className="fas fa-exclamation-triangle" /> {storeError}
+                    </NavLink>
+                </NavItem> : null;
 
         return (
             <Navbar color="primary" expand="lg" dark className="sticky-top">
@@ -106,7 +116,9 @@ class MenuBarContainer extends React.Component {
                         <NavItem>
                             <NavLink style={ pathname === '/' ? activeStyle : null } tag={Link} to="/"><i className="fas fa-home" /> 홈</NavLink>
                         </NavItem>
-                        { bbsNavs }
+                        { loadingView }
+                        { typeNavs }
+                        { errorView }
                     </Nav>
                 </Collapse>
             </Navbar>
@@ -114,4 +126,6 @@ class MenuBarContainer extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuBarContainer));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(MenuBarContainer)
+);
