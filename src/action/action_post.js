@@ -8,7 +8,8 @@ function get_post_list_by_query_api(queryModel) {
         type : queryModel && queryModel.type,
         page : queryModel && queryModel.pg,
         ordering : queryModel && (queryModel.ordering || '-id'),
-        search : queryModel && queryModel.st
+        search : queryModel && queryModel.st,
+        sz : queryModel && (queryModel.sz || 8)
     };
     return axios({
         url : `${ROOT_URL}?${queryString.stringify(serverQuery)}`,

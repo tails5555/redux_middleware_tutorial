@@ -110,14 +110,21 @@ Redux 의 구성은 Flux 와 거의 유사하여 위의 요소들은 큰 설명 
 
 - 공부하면서 작성 하겠습니다.
 
+## About Project
+
+이 토이 프로젝트의 목표는 Redux-Thunk 와 Redux-Saga 를 사용하여 간단한 게시판 기능을 구현하는 것입니다.
+
+게시판 API 는 django REST Framework 를 사용했습니다.
+
+
 ## Author
 
 - 강인성([tails5555](https://github.com/tails5555))
 
 ## References
 
-- [MVC 구조과 Flux 구조](http://webframeworks.kr/tutorials/react/flux/)
+- MVC 구조과 Flux 구조의 차이, 그리고 Redux (http://webframeworks.kr/tutorials/react/flux/)
 
-- [Flux 구조를 더욱 알아보자](https://haruair.github.io/flux/docs/overview.html)
+- Flux 구조에 대한 Facebook 강연 참조(https://haruair.github.io/flux/docs/overview.html)
 
-- [Redux 소개](https://d2.naver.com/helloworld/1848131)
+- React + Redux 소개 (https://d2.naver.com/helloworld/1848131)

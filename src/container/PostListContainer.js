@@ -10,7 +10,7 @@ import { Container } from 'reactstrap';
 import * as typeActions from '../action/action_type';
 import * as postActions from '../action/action_post';
 
-import { PostTableView } from '../component';
+import { PostTableView, PostPagination } from '../component';
 
 const mapStateToProps = (state) => ({
     typeElement : state.type.typeElement,
@@ -93,12 +93,15 @@ class PostListContainer extends React.Component {
 
         return(
             <Container style={{ padding : '10px' }}>
-                <div id="type_title">
+                <div id="type_title" style={{ margin : '10px' }}>
                     {typeView}
                 </div>
                 <hr/>
-                <div id="type_post_view">
+                <div id="type_post_view" style={{ margin : '10px' }}>
                     <PostTableView posts={storePosts} loading={storePostsLoading} error={storePostsError} />
+                </div>
+                <div id="type_post_pagination" style={{ margin : '10px' }}>
+                    <PostPagination count={storePostsCount} />
                 </div>
             </Container>
         )
