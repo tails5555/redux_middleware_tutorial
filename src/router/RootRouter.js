@@ -3,12 +3,14 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import HomeContainer from '../container/HomeContainer';
 import MenuBarContainer from '../container/MenuBarContainer';
+import PostListContainer from '../container/PostListContainer';
 
 const RootRouter = () => (
     <Fragment>
         <MenuBarContainer />
         <Switch>
             <Route exact path="/" component={HomeContainer} />
+            <Route exact path="/bbs/list" component={PostListContainer} />
             <Route exact path="/bbs/list/_ref" render={(({location}) => <Redirect to={`/bbs/list${location.search}`} />)} />
         </Switch>
     </Fragment>

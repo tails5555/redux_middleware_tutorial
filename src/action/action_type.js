@@ -45,3 +45,33 @@ const fetch_all_bbs_types_failure = (error) => ({
     type : FETCH_ALL_BBS_TYPES_FAILURE,
     payload : error
 });
+
+export const FETCH_BBS_TYPE_ELEMENT_BY_ID = 'FETCH_BBS_TYPE_ELEMENT_BY_ID';
+export const FETCH_BBS_TYPE_ELEMENT_BY_ID_SUCCESS = 'FETCH_BBS_TYPE_ELEMENT_BY_ID_SUCCESS';
+export const FETCH_BBS_TYPE_ELEMENT_BY_ID_FAILURE = 'FETCH_BBS_TYPE_ELEMENT_BY_ID_FAILURE';
+
+export const fetch_bbs_type_element_by_id = (typeId) => (dispatch) => {
+    dispatch(fetch_bbs_type_element_by_id_start())
+
+    return get_type_single_api(typeId).then((response) => {
+        setTimeout(() => {
+            dispatch(fetch_bbs_type_element_by_id_success(response));
+        }, 1000);
+    }).catch(error => {
+        dispatch(fetch_bbs_type_element_by_id_failure(error.message));
+    });
+}
+
+const fetch_bbs_type_element_by_id_start = () => ({
+    type : FETCH_BBS_TYPE_ELEMENT_BY_ID
+});
+
+const fetch_bbs_type_element_by_id_success = (response) => ({
+    type : FETCH_BBS_TYPE_ELEMENT_BY_ID_SUCCESS,
+    payload : response.data
+});
+
+const fetch_bbs_type_element_by_id_failure = (error) => ({
+    type : FETCH_BBS_TYPE_ELEMENT_BY_ID_FAILURE,
+    payload : error
+});

@@ -1,1 +1,1 @@
-export { default as MenuBarContainer } from '../container/MenuBarContainer';
+export { default as PostTableView } from './PostTableView';

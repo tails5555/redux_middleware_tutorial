@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    typeListAction : bindActionCreators(typeActions, dispatch)
+    typeAction : bindActionCreators(typeActions, dispatch)
 });
 
 class MenuBarContainer extends React.Component { 
@@ -31,8 +31,8 @@ class MenuBarContainer extends React.Component {
     }
 
     componentDidMount() {
-        const { typeListAction } = this.props;
-        typeListAction.fetch_all_bbs_types();
+        const { typeAction } = this.props;
+        typeAction.fetch_all_bbs_types();
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
