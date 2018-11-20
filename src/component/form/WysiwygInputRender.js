@@ -49,8 +49,7 @@ const WysiwygInputRender = ({ input, meta : { error } }) => (
         />
         <br/>
         {
-            error &&
-            <Badge color="danger" pill> {error}</Badge>
+            error && <Badge color="danger" pill><i className="fas fa-exclamation-triangle" /> {error}</Badge>
         }
     </Fragment>
 );
