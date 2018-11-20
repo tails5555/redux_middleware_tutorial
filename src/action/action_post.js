@@ -17,6 +17,13 @@ function get_post_list_by_query_api(queryModel) {
     });
 }
 
+function get_post_single_api(id){
+    return axios({
+        url : `${ROOT_URL}/${id}`,
+        method : 'get'
+    });
+}
+
 function create_post_api(postModel){
     const requestBody = {
         id : 0,
@@ -31,13 +38,6 @@ function create_post_api(postModel){
         url : ROOT_URL,
         data : requestBody,
         method : 'post'
-    });
-}
-
-function get_post_single_api(id){
-    return axios({
-        url : `${ROOT_URL}/${id}`,
-        method : 'get'
     });
 }
 
@@ -68,6 +68,36 @@ const fetch_post_list_by_query_success = (response) => ({
 
 const fetch_post_list_by_query_failure = (error) => ({
     type : FETCH_POST_LIST_BY_QUERY_FAILURE,
+    payload : error
+});
+
+export const FETCH_POST_ELEMENT_BY_ID = 'FETCH_POST_ELEMENT_BY_ID';
+export const FETCH_POST_ELEMENT_BY_ID_SUCCESS = 'FETCH_POST_ELEMENT_BY_ID_SUCCESS';
+export const FETCH_POST_ELEMENT_BY_ID_FAILURE = 'FETCH_POST_ELEMENT_BY_ID_FAILURE';
+
+export const fetch_post_element_by_id = (postId) => (dispatch) => {
+    dispatch(fetch_post_element_by_id_start());
+    
+    return get_post_single_api(postId).then((response) => {
+        setTimeout(() => {
+            dispatch(fetch_post_element_by_id_success(response));
+        }, 2000);
+    }).catch(error => {
+        dispatch(fetch_post_element_by_id_failure(error.message));
+    });
+}
+
+const fetch_post_element_by_id_start = () => ({
+    type : FETCH_POST_ELEMENT_BY_ID
+});
+
+const fetch_post_element_by_id_success = (response) => ({
+    type : FETCH_POST_ELEMENT_BY_ID_SUCCESS,
+    payload : response.data
+});
+
+const fetch_post_element_by_id_failure = (error) => ({
+    type : FETCH_POST_ELEMENT_BY_ID_FAILURE,
     payload : error
 });
 
