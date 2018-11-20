@@ -7,6 +7,7 @@ function createPushURL(id, query){
     Object.assign(queryModel, { id });
     return queryString.stringify(queryModel);
 }
+
 const PostInfoBrief = (props) => {
     const { post, history, location } = props;
     
