@@ -1,13 +1,15 @@
 import {
     FETCH_POST_LIST_BY_QUERY, FETCH_POST_LIST_BY_QUERY_SUCCESS, FETCH_POST_LIST_BY_QUERY_FAILURE,
     FETCH_POST_ELEMENT_BY_ID, FETCH_POST_ELEMENT_BY_ID_SUCCESS, FETCH_POST_ELEMENT_BY_ID_FAILURE,
-    CREATE_POST_CONTEXT, CREATE_POST_CONTEXT_SUCCESS, CREATE_POST_CONTEXT_FAILURE, RESET_CREATE_POST_CONTEXT
+    CREATE_POST_CONTEXT, CREATE_POST_CONTEXT_SUCCESS, CREATE_POST_CONTEXT_FAILURE, RESET_CREATE_POST_CONTEXT,
+    DELETE_POST_ELEMENT_BY_ID, DELETE_POST_ELEMENT_BY_ID_SUCCESS, DELETE_POST_ELEMENT_BY_ID_FAILURE, RESET_DELETE_POST_ELEMENT_BY_ID
 } from '../action/action_post';
 
 const INITIAL_STATE = {
     postList : { loading : false, posts : [], error : null, count : 0 },
     postElement : { loading : false, post : null, error : null },
-    postSave : { loading : false, post : null, error : null }
+    postSave : { loading : false, post : null, error : null },
+    postDelete : { loading : false, status : null, error : null }
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -35,6 +37,15 @@ export default function(state = INITIAL_STATE, action) {
             return { ...state, postSave : { ...state.postSave, loading : false, error : action.payload }};
         case RESET_CREATE_POST_CONTEXT :
             return { ...state, postSave : { loading : false, error : null, post : null }};
+
+        case DELETE_POST_ELEMENT_BY_ID :
+            return { ...state, postDelete : { loading : true, error : null, status : null }};
+        case DELETE_POST_ELEMENT_BY_ID_SUCCESS : 
+            return { ...state, postDelete : { loading : false, error : null, status : action.payload }};
+        case DELETE_POST_ELEMENT_BY_ID_FAILURE : 
+            return { ...state, postDelete : { ...state.postDelete, loading : false, error : action.payload }};
+        case RESET_DELETE_POST_ELEMENT_BY_ID : 
+            return { ...state, postDelete : { loading : false, error : null, status : null }};
 
         default :
             return state;

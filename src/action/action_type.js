@@ -38,7 +38,7 @@ const fetch_all_bbs_types_start = () => ({
 
 const fetch_all_bbs_types_success = (response) => ({
     type : FETCH_ALL_BBS_TYPES_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const fetch_all_bbs_types_failure = (error) => ({
@@ -68,7 +68,7 @@ const fetch_bbs_type_element_by_id_start = () => ({
 
 const fetch_bbs_type_element_by_id_success = (response) => ({
     type : FETCH_BBS_TYPE_ELEMENT_BY_ID_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const fetch_bbs_type_element_by_id_failure = (error) => ({

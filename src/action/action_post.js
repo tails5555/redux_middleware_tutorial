@@ -24,7 +24,7 @@ function get_post_single_api(id){
     });
 }
 
-function create_post_api(postModel){
+function create_post_by_model_api(postModel){
     const requestBody = {
         id : 0,
         title : postModel && postModel.title,
@@ -38,6 +38,30 @@ function create_post_api(postModel){
         url : ROOT_URL,
         data : requestBody,
         method : 'post'
+    });
+}
+
+function update_post_by_model_api(postId, postModel){
+    const requestBody = {
+        id : postId,
+        title : postModel && postModel.title,
+        writer : postModel && postModel.writer,
+        type : postModel && postModel.type,
+        context : postModel && postModel.context,
+        created_at : null,
+        updated_at : null
+    };
+    return axios({
+        url : `${ROOT_URL}/${postId}`,
+        data : requestBody,
+        method : 'put'
+    });
+}
+
+function delete_post_by_id_api(postId){
+    return axios({
+        url : `${ROOT_URL}/${postId}`,
+        method : 'delete'
     });
 }
 
@@ -63,7 +87,7 @@ const fetch_post_list_by_query_start = () => ({
 
 const fetch_post_list_by_query_success = (response) => ({
     type : FETCH_POST_LIST_BY_QUERY_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const fetch_post_list_by_query_failure = (error) => ({
@@ -93,7 +117,7 @@ const fetch_post_element_by_id_start = () => ({
 
 const fetch_post_element_by_id_success = (response) => ({
     type : FETCH_POST_ELEMENT_BY_ID_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const fetch_post_element_by_id_failure = (error) => ({
@@ -109,7 +133,7 @@ export const RESET_CREATE_POST_CONTEXT = 'RESET_CREATE_POST_CONTEXT';
 export const create_post_context = (postModel) => (dispatch) => {
     dispatch(create_post_context_trying());
     
-    return create_post_api(postModel).then((response) => {
+    return create_post_by_model_api(postModel).then((response) => {
         setTimeout(() => {
             dispatch(create_post_context_success(response));
         }, 2000);
@@ -128,7 +152,7 @@ const create_post_context_trying = () => ({
 
 const create_post_context_success = (response) => ({
     type : CREATE_POST_CONTEXT_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const create_post_context_failure = (error) => ({
@@ -138,4 +162,48 @@ const create_post_context_failure = (error) => ({
 
 const reset_create_post_context_trying = () => ({
     type : RESET_CREATE_POST_CONTEXT
-})
+});
+
+export const DELETE_POST_ELEMENT_BY_ID = 'DELETE_POST_ELEMENT_BY_ID';
+export const DELETE_POST_ELEMENT_BY_ID_SUCCESS = 'DELETE_POST_ELEMENT_BY_ID_SUCCESS';
+export const DELETE_POST_ELEMENT_BY_ID_FAILURE = 'DELETE_POST_ELEMENT_BY_ID_FAILURE';
+export const RESET_DELETE_POST_ELEMENT_BY_ID = 'RESET_DELETE_POST_ELEMENT_BY_ID';
+
+export const delete_post_element_by_id = (postId) => (dispatch) => {
+    dispatch(delete_post_element_by_id_trying());
+
+    return delete_post_by_id_api(postId).then((response) => {
+        setTimeout(() => {
+            dispatch(delete_post_element_by_id_success(response));
+        }, 2000);
+    }).catch(error => {
+        dispatch(delete_post_element_by_id_failure(error.message));
+    });
+}
+
+export const reset_delete_post_element_by_id_trying = () => (dispatch) => {
+    dispatch(reset_delete_post_element_by_id());
+}
+
+const delete_post_element_by_id_trying = () => ({
+    type : DELETE_POST_ELEMENT_BY_ID
+});
+
+/* 
+ * django REST Framework 에서 ModelViewSet 로 RESTful API 를 생성할 때, 
+ * delete 요청에 대한 Response Status 값이 204(No Content) 이기 때문에
+ * Status 값으로 Payload 설정.
+ */
+const delete_post_element_by_id_success = (response) => ({
+    type : DELETE_POST_ELEMENT_BY_ID_SUCCESS,
+    payload : response && response.status
+});
+
+const delete_post_element_by_id_failure = (error) => ({
+    type : DELETE_POST_ELEMENT_BY_ID_FAILURE,
+    payload : error
+});
+
+const reset_delete_post_element_by_id = () => ({
+    type : RESET_DELETE_POST_ELEMENT_BY_ID
+});
