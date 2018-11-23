@@ -98,6 +98,7 @@ const fetch_post_list_by_query_failure = (error) => ({
 export const FETCH_POST_ELEMENT_BY_ID = 'FETCH_POST_ELEMENT_BY_ID';
 export const FETCH_POST_ELEMENT_BY_ID_SUCCESS = 'FETCH_POST_ELEMENT_BY_ID_SUCCESS';
 export const FETCH_POST_ELEMENT_BY_ID_FAILURE = 'FETCH_POST_ELEMENT_BY_ID_FAILURE';
+export const RESET_FETCH_POST_ELEMENT_BY_ID = 'RESET_FETCH_POST_ELEMENT_BY_ID';
 
 export const fetch_post_element_by_id = (postId) => (dispatch) => {
     dispatch(fetch_post_element_by_id_start());
@@ -109,6 +110,10 @@ export const fetch_post_element_by_id = (postId) => (dispatch) => {
     }).catch(error => {
         dispatch(fetch_post_element_by_id_failure(error.message));
     });
+}
+
+export const reset_fetch_post_element_by_id = () => (dispatch) => {
+    dispatch(reset_fetch_post_element_by_id_start());
 }
 
 const fetch_post_element_by_id_start = () => ({
@@ -123,6 +128,10 @@ const fetch_post_element_by_id_success = (response) => ({
 const fetch_post_element_by_id_failure = (error) => ({
     type : FETCH_POST_ELEMENT_BY_ID_FAILURE,
     payload : error
+});
+
+const reset_fetch_post_element_by_id_start = () => ({
+    type : RESET_FETCH_POST_ELEMENT_BY_ID
 });
 
 export const CREATE_POST_CONTEXT = 'CREATE_POST_CONTEXT';
@@ -162,6 +171,45 @@ const create_post_context_failure = (error) => ({
 
 const reset_create_post_context_trying = () => ({
     type : RESET_CREATE_POST_CONTEXT
+});
+
+export const UPDATE_POST_CONTEXT = 'UPDATE_POST_CONTEXT';
+export const UPDATE_POST_CONTEXT_SUCCESS = 'UPDATE_POST_CONTEXT_SUCCESS';
+export const UPDATE_POST_CONTEXT_FAILURE = 'UPDATE_POST_CONTEXT_FAILURE';
+export const RESET_UPDATE_POST_CONTEXT = 'RESET_UPDATE_POST_CONTEXT';
+
+export const update_post_context = (postId, postModel) => (dispatch) => {
+    dispatch(update_post_context_trying());
+
+    return update_post_by_model_api(postId, postModel).then((response) => {
+        setTimeout(() => {
+            dispatch(update_post_context_success(response));
+        }, 2000);
+    }).catch(error => {
+        dispatch(update_post_context_failure(error.message));
+    });
+}
+
+export const reset_update_post_context = () => (dispatch) => {
+    dispatch(reset_update_post_context_trying());
+}
+
+const update_post_context_trying = () => ({
+    type : UPDATE_POST_CONTEXT
+});
+
+const update_post_context_success = (response) => ({
+    type : UPDATE_POST_CONTEXT_SUCCESS,
+    payload : response.data
+});
+
+const update_post_context_failure = (error) => ({
+    type : UPDATE_POST_CONTEXT_FAILURE,
+    payload : error
+});
+
+const reset_update_post_context_trying = () => ({
+    type : RESET_UPDATE_POST_CONTEXT
 });
 
 export const DELETE_POST_ELEMENT_BY_ID = 'DELETE_POST_ELEMENT_BY_ID';
