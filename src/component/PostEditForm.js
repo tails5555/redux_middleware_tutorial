@@ -1,4 +1,9 @@
 import React from 'react';
+import queryString from 'query-string';
+
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import { Form, Button } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 
@@ -6,6 +11,18 @@ import * as postActions from '../action/action_post';
 import { SelectInputRender, TextInputRender, WysiwygInputRender } from './form';
 
 import './style/quill_style.css';
+
+const mapStateToProps = (state) => {
+    const { post } = state.post.postElement;
+    return {
+        initialValues : {
+            title : post && (post.title || ''),
+            writer : post && (post.writer || ''),
+            type : post && (post.type || ''),
+            context : post && (post.context || '') 
+        }
+    };
+}
 
 function validate(values){
     var errors = {};
@@ -41,28 +58,50 @@ const validateAndSaving = (values, dispatch) => {
         type : values && values.type,
         context : values && values.context
     }
-    dispatch(postActions.create_post_context(postModel));
+    if(values && values.postId === undefined){
+        dispatch(postActions.create_post_context(postModel));
+    } else if(values && values.postId !== null){
+        dispatch(postActions.update_post_context(values.postId, postModel));
+    }
 }
 
 class PostEditForm extends React.Component {
     constructor(props){
         super(props);
-        this.state = { post : null, storeTypes : [], storeTypesLoading : false, storeTypesError : null };    
+        this.state = { post : null, storeTypes : [], storeTypesLoading : false, storeTypesError : null, storePost : null, storePostLoading : false, storePostError : null };    
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        const { storeTypes, storeTypesLoading, storeTypesError } = nextProps;
+        const { storeTypes, storeTypesLoading, storeTypesError, storePost, storePostLoading, storePostError } = nextProps;
         if(
             prevState.storeTypes !== storeTypes ||
             prevState.storeTypesLoading !== storeTypesLoading ||
             prevState.storeTypesError !== storeTypesError
-        ) {
-            return {
-                storeTypes,
-                storeTypesLoading,
-                storeTypesError
-            };
-        }
+        ) 
+            if(
+                storePost === undefined && storePostLoading === undefined && storePostError === undefined
+            ){
+                return {
+                    storeTypes,
+                    storeTypesLoading,
+                    storeTypesError,
+                    storePost : null,
+                    storePostLoading : false,
+                    storePostError : null
+                };
+            } else if(
+                prevState.storePost !== storePost || prevState.storePostLoading !== storePostLoading || prevState.storePostError !== storePostError
+            ) {
+                return {
+                    storeTypes,
+                    storeTypesLoading,
+                    storeTypesError,
+                    storePost,
+                    storePostLoading,
+                    storePostError
+                };
+            }
+
         return null;
     }
 
@@ -78,6 +117,21 @@ class PostEditForm extends React.Component {
             }
         }
         return false;
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        const { location } = this.props;
+        const { storePost, storePostError } = prevState;
+        if(storePost !== null && location.pathname.includes('edit')) {
+            this.props.change('postId', storePost && storePost.id);
+        } else if(storePostError !== this.state.storePostError) {
+            const { history } = this.props;
+            const { search } = location;
+            const queryModel = queryString.parse(search);
+            queryModel['id'] = undefined;
+            alert(`다음과 같은 오류가 발생했습니다. 이전으로 돌아갑니다.\n오류 내용 : ${this.state.storePostError}`);
+            history.push(`/bbs/list?${queryString.stringify(queryModel)}`);
+        }
     }
 
     render(){
@@ -117,9 +171,13 @@ class PostEditForm extends React.Component {
     }
 }
 
-export default reduxForm({
+PostEditForm = reduxForm({
     form : 'postEditForm',
     validate,
     enableReinitialize : true,
     keepDirtyOnReinitialize : true
 })(PostEditForm);
+
+export default withRouter(
+    connect(mapStateToProps)(PostEditForm)
+);

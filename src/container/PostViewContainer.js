@@ -62,6 +62,25 @@ class PostViewContainer extends React.Component {
         return false;
     }
 
+    componentDidUpdate(prevProps, prevState){
+        const { storeError } = this.state;
+        if(storeError !== prevState.storeError){
+            const { location, history } = this.props;
+            const { search } = location;
+            const queryModel = queryString.parse(search);
+            queryModel['id'] = undefined;
+            alert(`게시물을 불러오는 도중 오류가 발생했습니다. 이전으로 돌아갑니다.\n오류 내용 : ${storeError}`);
+            history.push(`/bbs/list?${queryString.stringify(queryModel)}`);
+        }
+    }
+
+    componentWillUnmount(){
+        const { postAction } = this.props;
+        const { post } = this.state;
+        if(post !== null)
+            postAction.reset_fetch_post_element_by_id();
+    }
+
     render(){
         const { storePost, storeLoading, storeError } = this.state;
 
