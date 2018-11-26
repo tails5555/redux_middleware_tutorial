@@ -49,31 +49,36 @@ class PostElementView extends React.Component {
         history.push(`/bbs/edit${location.search}`);
     }
 
+    handleClickDelete = () => {
+        const { deleteLambda } = this.props;
+        deleteLambda();
+    }
+
     render(){
         const { post, loading, error } = this.state;
         return error === null ? 
-                (
-                    <Card>
-                        <CardBody>
-                            <CardTitle>{ loading ? '제목을 불러오는 중입니다...' : (post && post.title) }</CardTitle>
-                            <CardSubtitle>{ loading ? '작성자를 불러오는 중입니다...' : (post && post.writer) } / { loading ? '날짜를 가져오는 중입니다...' : (post && new Date(post.updated_at).toLocaleString()) }</CardSubtitle>
-                        </CardBody>
-                        <CardBody>
-                            <div
-                                id="bbs_context_view"
-                                className="post_context"
-                                style={{ minHeight : '500px' }}
-                                dangerouslySetInnerHTML={{ __html: loading ? '<h2>내용을 불러오는 중입니다...</h2>' : (post && post.context) }}
-                            />
-                            <hr/>
-                            <div id="button_div_box" className="d-flex justify-content-end">
-                                <Button style={{ margin : '10px' }} color="info" onClick={() => this.handleClickPushBack()}><i className="fas fa-arrow-left" /> 이전으로</Button>
-                                <Button style={{ margin : '10px' }} color="primary" onClick={() => this.handleClickPushEdit()}><i className="fas fa-edit" /> 수정하기</Button>
-                                <Button style={{ margin : '10px' }} color="danger" onClick={() => this.handleClickPushBack()}><i className="fas fa-trash" /> 삭제하기</Button>
-                            </div>
-                        </CardBody>
-                    </Card>
-                ) : <Fragment />
+            (
+                <Card>
+                    <CardBody>
+                        <CardTitle>{ loading ? '제목을 불러오는 중입니다...' : (post && post.title) }</CardTitle>
+                        <CardSubtitle>{ loading ? '작성자를 불러오는 중입니다...' : (post && post.writer) } / { loading ? '날짜를 가져오는 중입니다...' : (post && new Date(post.updated_at).toLocaleString()) }</CardSubtitle>
+                    </CardBody>
+                    <CardBody>
+                        <div
+                            id="bbs_context_view"
+                            className="post_context"
+                            style={{ minHeight : '500px' }}
+                            dangerouslySetInnerHTML={{ __html: loading ? '<h2>내용을 불러오는 중입니다...</h2>' : (post && post.context) }}
+                        />
+                        <hr/>
+                        <div id="button_div_box" className="d-flex justify-content-end">
+                            <Button style={{ margin : '10px' }} color="info" onClick={() => this.handleClickPushBack()}><i className="fas fa-arrow-left" /> 이전으로</Button>
+                            <Button style={{ margin : '10px' }} color="primary" onClick={() => this.handleClickPushEdit()}><i className="fas fa-edit" /> 수정하기</Button>
+                            <Button style={{ margin : '10px' }} color="danger" onClick={() => this.handleClickDelete()}><i className="fas fa-trash" /> 삭제하기</Button>
+                        </div>
+                    </CardBody>
+                </Card>
+            ) : <Fragment />
     }
 }
 

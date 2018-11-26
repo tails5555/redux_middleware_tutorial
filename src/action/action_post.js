@@ -229,8 +229,8 @@ export const delete_post_element_by_id = (postId) => (dispatch) => {
     });
 }
 
-export const reset_delete_post_element_by_id_trying = () => (dispatch) => {
-    dispatch(reset_delete_post_element_by_id());
+export const reset_delete_post_element_by_id = () => (dispatch) => {
+    dispatch(reset_delete_post_element_by_id_trying());
 }
 
 const delete_post_element_by_id_trying = () => ({
@@ -252,6 +252,6 @@ const delete_post_element_by_id_failure = (error) => ({
     payload : error
 });
 
-const reset_delete_post_element_by_id = () => ({
+const reset_delete_post_element_by_id_trying = () => ({
     type : RESET_DELETE_POST_ELEMENT_BY_ID
 });
