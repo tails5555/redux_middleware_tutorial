@@ -102,10 +102,113 @@ Redux 의 구성은 Flux 와 거의 유사하여 위의 요소들은 큰 설명 
 
     - Reducer 는 대부분 switch 문으로 작성하고, `combineReducers` 함수를 사용하여 Application 에서 사용하는 모든 Reducer 를 한 번에 묶을 수 있어 편리합니다.
 
-## Redux-Thunk
+## Why Use Redux-Thunk And Redux-Saga?
 
-- 공부하면서 작성 하겠습니다.
-  
+`react-redux` 라이브러리만 사용하는 것은 Redux 에서 일어나는 과정을 동기(Synchronous) 방식으로만 처리합니다.
+
+하지만 JavaScript Application 은 Single Thread 를 사용하기 때문에 동기 방식으로만 처리하는 것은 내부 Thread 간의 Blocking 이 발생합니다.
+
+JS Application 에서 요구하는 Non-Blocking 을 이루기 위해 비동기 방식 프로그래밍 기술이 필요합니다.
+
+Redux 에서 비동기 프로그래밍을 쉽게 적용시켜주는 `redux-thunk`, `redux-saga` 등의 라이브러리가 있습니다.
+
+> **Asynchronous Programming** 
+>
+> - 비동기 프로그래밍은 프로세스의 Flow 가 진행 되고, 그 중간에 비동기 호출 과정이 일어나는데 동기 Flow 과정이 마친 뒤 비동기 호출 약속에 따라 그 내용을 실행하는 기술입니다.
+>
+> - 비동기 방식 프로그래밍의 사례는 AJAX, Promise, Callback Function, setInterval(), setTimeout() 함수 등을 사용하는 것입니다.
+> 
+> - 비동기 방식에 대한 처리량이 생각보다 낮을 수도 있지만, 병렬 처리 방식을 혼합하여 사용하는 방법이 있습니다. 예를 들어 `axios` 라이브러리에서 여러 AJAX Request 들에 대한 병렬 처리를 제공합니다.
+
+> **Middleware**
+>
+> - Redux 의 Asynchronous 작업들을(예를 들어 AJAX, Web Socket, AMQP Processing etc.) 다룰 때 State 관리를 용이하게 도와줍니다.
+> 
+> - Action 에서 반환된 객체가 Dispatcher 를 사용하여 넘겨질 때 Reducer 에서 필터링 됩니다. 예를 들어 Action 에서 반환된 Type 과 Payload 의 내용을 확인하는 기능을 구현하려면 Action 과 Reducer 중간에 작업을 거쳐야 합니다.  
+>
+> - 위와 같이 Redux 에서 Action 과 Reducer 중간에 이뤄지는 작업들을 처리하는 중간자를 Middleware 라고 부릅니다.
+>
+> - Middleware 설정은 Store 단에서 `applyMiddleware` 함수를 사용하길 바랍니다.
+
+## Redux Thunk
+
+Redux 에서 아주 간단한 방법으로 비동기 프로그래밍의 Condition 별로 관리하는 **미들웨어 라이브러리** 입니다.(미들웨어에 대한 개념은 방금 위에 작성한 부가 설명을 참고하시길 바랍니다.)
+
+Redux Thunk 는 JavaScript ES6 버전을 읽어주는 컴파일러(代 Babel) 가 있으면 Arrow Function 으로 작성하여 사용하는 방안이 좋습니다. 물론 function 키워드를 이용한 Callback 함수로 작성하셔도 무관합니다.
+
+Thunk 의 컴퓨터 공학 개념으로는 어느 작업이 이뤄지는 상황에서 우선 순위에 밀려 나중에 실행하기 위해 함수로 묶는 개념입니다.
+
+드라마로 쉽게 설명하면 주인공과의 감정 싸움이 있다가 원인 제공자가 사과문이 담긴 쪽지를 전하는데 상대방이 안 받고 불편함을 느낀 원인 제공자가 결국 나가고 난 후, 상대방이 쪽지를 읽으면서 화해의 이야기를 전개하게 됩니다. 여기서 Thunk의 개념이 아직까지 못 본 사과문이 담긴 쪽지와 같은 역할입니다.
+
+JavaScript 에서 Function 을 이용한 Thunk 의 원리는 아래와 같습니다. 
+
+```javascript
+// 예를 들어 10 곱하기 20 의 값을 계산하려면 변수에 바로 대입합니다. 
+const a = 10;
+const b = 20;
+const mul_def = a * b; // 200
+
+// 하지만 Thunk 방식은 진행할 Function 을 미리 만들어두고 난 후에 변수를 대입하여 사용합니다.
+const mul_thunk = (x, y) => x * y;
+console.log(mul_thunk(a, b)); // 200
+```
+
+이와 같은 원리를 적용하려면 일반적인 Redux 의 Action 에 따른 type 과 payload 반환만으론 역부족입니다. 그래서 React-Redux 에는 Dispatcher 로 Action 함수에서 반환된 객체를 Reducer 로 넘기고 Page Container 측에선 `mapStateToProps` 와 `mapDispatchToProps` 로 묶어서 사용하시면 됩니다. Redux 만 사용했을 때 `mapDispatchToProps` 에서 dispatch 를 이용하여 Action 객체를 직접 넘겨 사용한 방법과 다릅니다.
+
+또한 Dispatcher 주기를 비동기 프로그래밍 방식으로 설정할 수 있습니다. 예를 들어 setTimeout() 함수로 N ms 이후에 실행하는 것과 
+setInterval() 함수로 N ms 마다 실행하는 것을 적용할 수 있습니다.
+
+예를 들어 Action 단에서 작성한 코드를 참고하시면 아래와 같습니다.
+
+```javascript
+// AJAX Request. 단일 데이터를 가져오는 API.
+const get_post_by_id_api = (postId) => {
+    return axios({
+        url : `http://postapi.io/${postId}`,
+        method : 'get',
+    });   
+}
+
+// Action 의 Type 을 정의합니다. 순서대로 시작, 성공, 실패 입니다.
+// 이는 Reducer 에서 필터링할 때 씁니다.
+export const FETCH_POST_BY_ID = 'FETCH_POST_BY_ID';
+export const FETCH_POST_BY_ID_SUCCESS = 'FETCH_POST_BY_ID_SUCCESS';
+export const FETCH_POST_BY_ID_FAILURE = 'FETCH_POST_BY_ID_FAILURE';
+
+// mapDispatchToProps 로 연동된 함수에서 이를 설정할 수 있습니다.
+// 일반 action 함수와 달리 dispatch 매개 변수가 새로 추가 되었음을 유의하시길 바랍니다.
+export const fetch_post_by_id = (id) => (dispatch) => {
+    dispatch(fetch_post_by_id_trying());
+    
+    return get_post_by_id_api(postId).then((response) => {
+        // AJAX 요청에 따른 setTimeout() 함수를 사용하여 dispatch 할 수 있습니다.
+        setTimeout(() => {
+            dispatch(fetch_post_by_id_success(response));
+        }, 2000);
+    }).catch(error => {
+        // AJAX 요청에 대한 4XX 에러를 제어합니다. 여기서는 Error 메시지를 보내줬습니다.
+        dispatch(fetch_post_by_id_failure(error.message));
+    });
+}
+
+// 단일 데이터에 대한 조회 과정이 진행 되고 있음을 Type 으로 알립니다.
+const fetch_post_by_id_trying = () => ({
+    type : FETCH_POST_BY_ID
+});
+
+// 단일 데이터에 대한 조회 과정이 성공하면 이 Data 를 반환합니다.
+const fetch_post_by_id_success = (response) => ({
+    type : FETCH_POST_BY_ID_SUCCESS,
+    payload : response && response.data
+});
+
+// 단일 데이터를 가져오기 실패했으면, Error 메시지를 반환합니다.
+const fetch_post_by_id_failure = (error) => ({
+    type : FETCH_POST_BY_ID_FAILURE,
+    payload : error
+});
+```
+
 ## Redux-Saga
 
 - 공부하면서 작성 하겠습니다.
@@ -128,3 +231,5 @@ Redux 의 구성은 Flux 와 거의 유사하여 위의 요소들은 큰 설명 
 - Flux 구조에 대한 Facebook 강연 참조(https://haruair.github.io/flux/docs/overview.html)
 
 - React + Redux 소개 (https://d2.naver.com/helloworld/1848131)
+
+- Redux-Thunk 를 이용한 Counter 예제(https://velopert.com/3401)
