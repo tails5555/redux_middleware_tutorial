@@ -13,8 +13,3 @@ class Post(models.Model) :
     context = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-class Image(models.Model) :
-    id = models.AutoField(primary_key=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    image_file = models.ImageField(upload_to='images/', blank=True, default='images/image.jpg')

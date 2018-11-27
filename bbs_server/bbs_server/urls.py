@@ -16,13 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
-from bbs_context.views import TypeViewSet, PostViewSet, ImageViewSet
+from bbs_context.views import TypeViewSet, PostViewSet
 from django.conf.urls import include
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register('type', TypeViewSet)
 router.register('post', PostViewSet)
-router.register('image', ImageViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

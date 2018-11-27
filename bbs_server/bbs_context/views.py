@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .models import Type, Post, Image
-from .serializers import TypeSerializer, PostSerializer, ImageSerializer
+from .models import Type, Post
+from .serializers import TypeSerializer, PostSerializer
 from .utils import ListPagination
 
 class TypeViewSet(viewsets.ModelViewSet) :
@@ -19,9 +19,3 @@ class PostViewSet(viewsets.ModelViewSet) :
     ordering_fields = ('updated_at',)
     ordering = ('-updated_at',)
     pagination_class = ListPagination
-
-class ImageViewSet(viewsets.ModelViewSet) :
-    queryset = Image.objects.all()
-    serializer_class = ImageSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('post',)

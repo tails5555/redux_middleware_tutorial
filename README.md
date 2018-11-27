@@ -219,17 +219,23 @@ const fetch_post_by_id_failure = (error) => ({
 
 게시판 API 는 django REST Framework 를 사용했습니다.
 
-
 ## Author
 
 - 강인성([tails5555](https://github.com/tails5555))
 
 ## References
 
-- MVC 구조과 Flux 구조의 차이, 그리고 Redux (http://webframeworks.kr/tutorials/react/flux/)
+- MVC 구조과 Flux 구조의 차이, 그리고 Redux 
+    - http://webframeworks.kr/tutorials/react/flux/
 
-- Flux 구조에 대한 Facebook 강연 참조(https://haruair.github.io/flux/docs/overview.html)
+- Flux 구조에 대한 Facebook 강연 참조 
+    - https://haruair.github.io/flux/docs/overview.html
 
-- React + Redux 소개 (https://d2.naver.com/helloworld/1848131)
+- React + Redux 소개 
+    - https://d2.naver.com/helloworld/1848131
 
-- Redux-Thunk 를 이용한 Counter 예제(https://velopert.com/3401)
+- Redux-Thunk 를 이용한 Counter 예제 
+    - https://velopert.com/3401
+
+- Redux-Saga 한국어 Tutorial 
+    - https://mskims.github.io/redux-saga-in-korean/
