@@ -1,1 +1,1 @@
-export {default as ThunkStore} from './thunk_store';
+export {default as RootStore} from './root_store';

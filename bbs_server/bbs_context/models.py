@@ -13,3 +13,10 @@ class Post(models.Model) :
     context = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Memo(models.Model) :
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200, default='메모장 제목')
+    context = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -18,6 +18,9 @@ const RootRouter = () => (
             <Route exact path="/bbs/list" component={PostListContainer} />
             <Route exact path="/bbs/view" component={PostViewContainer} />
             <Route exact path="/bbs/list/_ref" render={(({location}) => <Redirect to={`/bbs/list${location.search}`} />)} />
+            
+            <Route exact path="/memo/list" render={() => <h1>SAGA BBS</h1>} />
+            <Route exact path="/memo/list/_ref" render={(({location}) => <Redirect to={`/memo/list${location.search}`} />)} />
         </Switch>
     </Fragment>
 );

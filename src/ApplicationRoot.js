@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import { ThunkStore } from './store';
+import { RootStore } from './store';
 import { RootRouter } from './router';
 
 const ApplicationRoot = () => (
-    <Provider store={ThunkStore}>
+    <Provider store={RootStore}>
         <Router>
             <RootRouter />
         </Router>

@@ -122,6 +122,12 @@ class MenuBarContainer extends React.Component {
                         { loadingView }
                         { typeNavs }
                         { errorView }
+                        <NavItem>
+                            <NavLink style={ pathname === '/memo/create' ? activeStyle : null } tag={Link} to="/memo/create"><i className="fas fa-plus-circle" /> 메모 추가</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink style={ pathname.includes('/memo/list') || pathname.includes('/memo/view') ? activeStyle : null } tag={Link} to="/memo/list/_ref?pg=1"><i className="fas fa-sticky-note" /> 메모장</NavLink>
+                        </NavItem>
                     </Nav>
                 </Collapse>
             </Navbar>
