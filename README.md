@@ -211,6 +211,8 @@ const fetch_post_by_id_failure = (error) => ({
 
 ## Redux-Saga
 
+![redux_saga_logo](./image/redux_saga_logo.png)
+
 - 공부하면서 작성 하겠습니다.
 
 ## About Project
@@ -239,3 +241,6 @@ const fetch_post_by_id_failure = (error) => ({
 
 - Redux-Saga 한국어 Tutorial 
     - https://mskims.github.io/redux-saga-in-korean/
+
+- Redux-Saga Toast Meetup Post (사이드 이펙트 관리를 향상 시키는 Redux-Saga)
+    - https://meetup.toast.com/posts/136
