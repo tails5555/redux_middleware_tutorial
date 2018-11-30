@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 const ROOT_URL = 'http://127.0.0.1:8000/bbs_exp/memo';
 
-export const fetch_memo_api = (queryModel) => {
+export const fetch_memo_list_api = (queryModel) => {
     const serverQuery = {
         type : queryModel && queryModel.type,
         page : queryModel && queryModel.pg,
@@ -14,6 +14,13 @@ export const fetch_memo_api = (queryModel) => {
     
     return axios({
         url : `${ROOT_URL}?${queryString.stringify(serverQuery)}`,
+        method : 'get'
+    });
+}
+
+export const fetch_memo_element_api = (id) => {
+    return axios({
+        url : `${ROOT_URL}/${id}`,
         method : 'get'
     });
 }

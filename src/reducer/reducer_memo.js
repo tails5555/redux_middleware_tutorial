@@ -1,9 +1,11 @@
 import {
-    FETCH_MEMO_LIST, FETCH_MEMO_LIST_SUCCESS, FETCH_MEMO_LIST_FAILURE
+    FETCH_MEMO_LIST, FETCH_MEMO_LIST_SUCCESS, FETCH_MEMO_LIST_FAILURE,
+    FETCH_MEMO_ELEMENT_BY_ID, FETCH_MEMO_ELEMENT_BY_ID_SUCCESS, FETCH_MEMO_ELEMENT_BY_ID_FAILURE
 } from '../action/action_memo';
 
 const INITIAL_STATE = {
     memoList : { loading : false, memos : [], error : null, count : 0 },
+    memoElement : { loading : false, memo : null, error : null },
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -15,6 +17,13 @@ export default function(state = INITIAL_STATE, action) {
             return { ...state, memoList : { loading : false, error : null, memos : results, count }};
         case FETCH_MEMO_LIST_FAILURE :
             return { ...state, memoList : { ...state.memoList, loading : false, error : action.payload }};
+
+        case FETCH_MEMO_ELEMENT_BY_ID :
+            return { ...state, memoElement : { loading : true, error : null, memo : null }};
+        case FETCH_MEMO_ELEMENT_BY_ID_SUCCESS :
+            return { ...state, memoElement : { loading : false, error : null, memo : action.payload }};
+        case FETCH_MEMO_ELEMENT_BY_ID_FAILURE :
+            return { ...state, memoElement : { ...state.memoList, loading : false, error : action.payload }};
 
         default :
             return state;

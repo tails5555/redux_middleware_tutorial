@@ -48,6 +48,19 @@ class MemoListContainer extends React.Component {
         return null;
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        for (let stateKey in this.state) {
+            if(this.state[stateKey] !== nextState[stateKey]){
+                return true;
+            }
+        }
+        for (let propsKey in this.props) {
+            if(this.props[propsKey] !== nextProps[propsKey]) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     render(){
         const { storeMemos, storeMemosCount, storeLoading, storeError } = this.state;

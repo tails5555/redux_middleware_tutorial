@@ -18,3 +18,22 @@ export const fetch_memo_list_failure = (error) => ({
     type : FETCH_MEMO_LIST_FAILURE,
     payload : error
 });
+
+export const FETCH_MEMO_ELEMENT_BY_ID = 'FETCH_MEMO_ELEMENT_BY_ID';
+export const FETCH_MEMO_ELEMENT_BY_ID_SUCCESS = 'FETCH_MEMO_ELEMENT_BY_ID_SUCCESS';
+export const FETCH_MEMO_ELEMENT_BY_ID_FAILURE = 'FETCH_MEMO_ELEMENT_BY_ID_FAILURE';
+
+export const fetch_memo_element_by_id = (id) => ({
+    type : FETCH_MEMO_ELEMENT_BY_ID,
+    id
+});
+
+export const fetch_memo_element_by_id_success = (response) => ({
+    type : FETCH_MEMO_ELEMENT_BY_ID_SUCCESS,
+    payload : response.data
+});
+
+export const fetch_memo_element_by_id_failure = (error) => ({
+    type : FETCH_MEMO_ELEMENT_BY_ID_FAILURE,
+    payload : error
+});
