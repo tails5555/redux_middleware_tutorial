@@ -14,4 +14,4 @@ class PostSerializer(serializers.ModelSerializer) :
 class MemoSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Memo
-        fields = ('id', 'title', 'context', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'context', 'writer', 'created_at', 'updated_at')

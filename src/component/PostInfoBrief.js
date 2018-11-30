@@ -8,17 +8,13 @@ function createPushURL(id, query){
     return queryString.stringify(queryModel);
 }
 
-const PostInfoBrief = (props) => {
-    const { post, history, location } = props;
-    
-    return (
-        <tr onClick={() => history.push(`/bbs/view?${createPushURL(post && post.id, location.search)}`)}>
-            <td>{post && post.id}</td>
-            <td>{post && post.title}</td>
-            <td>{post && post.writer}</td>
-            <td>{post && new Date(post.updated_at).toLocaleString()}</td>
-        </tr>
-    );
-}
+const PostInfoBrief = ({ history, location, post }) => (
+    <tr onClick={() => history.push(`/bbs/view?${createPushURL(post && post.id, location.search)}`)}>
+        <td>{post && post.id}</td>
+        <td>{post && post.title}</td>
+        <td>{post && post.writer}</td>
+        <td>{post && new Date(post.updated_at).toLocaleString()}</td>
+    </tr>
+);
 
 export default withRouter(PostInfoBrief);

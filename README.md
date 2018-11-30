@@ -244,3 +244,6 @@ const fetch_post_by_id_failure = (error) => ({
 
 - Redux-Saga Toast Meetup Post (사이드 이펙트 관리를 향상 시키는 Redux-Saga)
     - https://meetup.toast.com/posts/136
+
+- JavaScript Callback, Promise, Generator 로 비동기 프로그래밍 전격 비교
+    - https://meetup.toast.com/posts/73

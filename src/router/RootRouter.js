@@ -7,6 +7,7 @@ import PostListContainer from '../container/PostListContainer';
 import PostCreateContainer from '../container/PostCreateContainer';
 import PostViewContainer from '../container/PostViewContainer';
 import PostUpdateContainer from '../container/PostUpdateContainer';
+import MemoListContainer from '../container/MemoListContainer';
 
 const RootRouter = () => (
     <Fragment>
@@ -19,7 +20,7 @@ const RootRouter = () => (
             <Route exact path="/bbs/view" component={PostViewContainer} />
             <Route exact path="/bbs/list/_ref" render={(({location}) => <Redirect to={`/bbs/list${location.search}`} />)} />
             
-            <Route exact path="/memo/list" render={() => <h1>SAGA BBS</h1>} />
+            <Route exact path="/memo/list" component={MemoListContainer} />
             <Route exact path="/memo/list/_ref" render={(({location}) => <Redirect to={`/memo/list${location.search}`} />)} />
         </Switch>
     </Fragment>
