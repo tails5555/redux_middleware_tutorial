@@ -10,6 +10,7 @@ import PostUpdateContainer from '../container/PostUpdateContainer';
 import MemoListContainer from '../container/MemoListContainer';
 import MemoViewContainer from '../container/MemoViewContainer';
 import MemoCreateContainer from '../container/MemoCreateContainer';
+import MemoUpdateContainer from '../container/MemoUpdateContainer';
 
 const RootRouter = () => (
     <Fragment>
@@ -26,6 +27,7 @@ const RootRouter = () => (
             <Route exact path="/memo/list/_ref" render={(({location}) => <Redirect to={`/memo/list${location.search}`} />)} />
             <Route exact path="/memo/view" component={MemoViewContainer} />
             <Route exact path="/memo/create" component={MemoCreateContainer} />
+            <Route exact path="/memo/edit" component={MemoUpdateContainer} />
         </Switch>
     </Fragment>
 );

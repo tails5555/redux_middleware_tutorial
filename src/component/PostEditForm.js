@@ -68,36 +68,34 @@ const validateAndSaving = (values, dispatch) => {
 class PostEditForm extends React.Component {
     constructor(props){
         super(props);
-        this.state = { storeTypes : [], storeTypesLoading : false, storeTypesError : null, storePost : null, storePostLoading : false, storePostError : null };    
+        this.state = { storeTypes : [], storeTypesLoading : false, storeTypesError : null, storePost : null, storePostError : null };    
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        const { storeTypes, storeTypesLoading, storeTypesError, storePost, storePostLoading, storePostError } = nextProps;
+        const { storeTypes, storeTypesLoading, storeTypesError, storePost, storePostError } = nextProps;
         if(
             prevState.storeTypes !== storeTypes ||
             prevState.storeTypesLoading !== storeTypesLoading ||
             prevState.storeTypesError !== storeTypesError
         ) 
             if(
-                storePost === undefined && storePostLoading === undefined && storePostError === undefined
+                storePost === undefined && storePostError === undefined
             ){
                 return {
                     storeTypes,
                     storeTypesLoading,
                     storeTypesError,
                     storePost : null,
-                    storePostLoading : false,
                     storePostError : null
                 };
             } else if(
-                prevState.storePost !== storePost || prevState.storePostLoading !== storePostLoading || prevState.storePostError !== storePostError
+                prevState.storePost !== storePost || prevState.storePostError !== storePostError
             ) {
                 return {
                     storeTypes,
                     storeTypesLoading,
                     storeTypesError,
                     storePost,
-                    storePostLoading,
                     storePostError
                 };
             }

@@ -66,3 +66,23 @@ export const create_memo_context_failure = (error) => ({
     type : CREATE_MEMO_CONTEXT_FAILURE,
     payload : error
 });
+
+export const UPDATE_MEMO_CONTEXT = 'UPDATE_MEMO_CONTEXT';
+export const UPDATE_MEMO_CONTEXT_SUCCESS = 'UPDATE_MEMO_CONTEXT_SUCCESS';
+export const UPDATE_MEMO_CONTEXT_FAILURE = 'UPDATE_MEMO_CONTEXT_FAILURE';
+
+export const update_memo_context = (memoId, memoModel) => ({
+    type : UPDATE_MEMO_CONTEXT,
+    memoId,
+    memoModel
+});
+
+export const update_memo_context_success = (response) => ({
+    type : UPDATE_MEMO_CONTEXT_SUCCESS,
+    payload : response.data
+});
+
+export const update_memo_context_failure = (error) => ({
+    type : UPDATE_MEMO_CONTEXT_FAILURE,
+    payload : error
+});

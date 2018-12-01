@@ -131,7 +131,6 @@ class PostUpdateContainer extends React.Component {
                         storeTypesLoading={storeTypesLoading} 
                         storeTypesError={storeTypesError}
                         storePost={storeElement}
-                        storePostLoading={storeElementLoading}
                         storePostError={storeElementError}
                     />
                 </div>

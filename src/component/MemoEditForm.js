@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 
-import { create_memo_context } from '../action/action_memo';
+import { create_memo_context, update_memo_context } from '../action/action_memo';
 import { TextInputRender } from './form';
 
 const mapStateToProps = (state) => {
@@ -50,29 +50,32 @@ const validateAndSaving = (values, dispatch) => {
     }
     if(values && values.memoId === undefined){
         dispatch(create_memo_context(memoModel));
+    } else if(values && values.memoId !== null){
+        dispatch(update_memo_context(values.memoId, memoModel));
     }
 }
 
 class MemoEditForm extends React.Component {
     constructor(props){
         super(props);
-        this.state = { storeMemo : null, storeMemoLoading : false, storeMemoError : null };    
+        this.state = { storeMemo : null, storeMemoError : null };    
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        const { storeMemo, storeMemoLoading, storeMemoError } = nextProps;
+        const { storeMemo, storeMemoError } = nextProps;
         if(
-            storeMemo === undefined && storeMemoLoading === undefined && storeMemoError === undefined
+            storeMemo === undefined && storeMemoError === undefined
         ) {
-            return null;
+            return {
+                storeMemo : null,
+                storeMemoError : null
+            }
         } else if(
             prevState.storeMemo !== storeMemo ||
-            prevState.storeMemoLoading !== storeMemoLoading ||
             prevState.storeMemoError !== storeMemoError
         ) {
             return {
                 storeMemo,
-                storeMemoLoading,
                 storeMemoError
             };
         }
@@ -94,10 +97,10 @@ class MemoEditForm extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        const { location } = this.props;
+        const { location, change } = this.props;
         const { storeMemo, storeMemoError } = prevState;
         if(storeMemo !== null && location.pathname.includes('edit')) {
-            this.props.change('memoId', storeMemo && storeMemo.id);
+            change('memoId', storeMemo && storeMemo.id);
         } else if(storeMemoError !== this.state.storeMemoError) {
             const { history } = this.props;
             const { search } = location;

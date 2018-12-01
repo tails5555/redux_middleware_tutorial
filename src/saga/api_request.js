@@ -32,3 +32,20 @@ export const create_memo_api = (memoModel) => {
         data : memoModel
     });
 }
+
+export const update_memo_api = (memoId, memoModel) => {
+    const memoFormModel = {
+        id : memoId,
+        title : memoModel && memoModel.title,
+        writer : memoModel && memoModel.writer,
+        context : memoModel && memoModel.context,
+        created_at : null,
+        updated_at : null 
+    }
+
+    return axios({
+        url : `${ROOT_URL}/${memoId}`,
+        method : 'put',
+        data : memoFormModel
+    });
+}

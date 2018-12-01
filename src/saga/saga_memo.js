@@ -32,3 +32,13 @@ export function* create_memo_context_saga(action){
         yield put(MemoActions.create_memo_context_failure(error && error.message));
     }
 }
+
+export function* update_memo_context_saga(action){
+    yield call(delay, 2000);
+    try {
+        const response = yield call(MemoAPI.update_memo_api, action.memoId, action.memoModel);
+        yield put(MemoActions.update_memo_context_success(response));
+    } catch (error) {
+        yield put(MemoActions.update_memo_context_failure(error && error.message));
+    }
+}
