@@ -70,7 +70,8 @@ class PostViewContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         const { storeError, storePost } = this.state;
-        const { status, error } = this.props.postDelete;
+        const { history, postAction, postDelete } = this.props;
+        const { status, error } = postDelete;
         if(storeError !== prevState.storeError){
             const { location, history } = this.props;
             const { search } = location;
@@ -80,12 +81,12 @@ class PostViewContainer extends React.Component {
             history.push(`/bbs/list?${queryString.stringify(queryModel)}`);
         } else if(status !== null && status === 204) {
             alert(`${storePost.writer} 님이 작성한 글이 삭제 되었습니다.`);
-            this.props.postAction.reset_delete_post_element_by_id();
-            this.props.history.push(`/bbs/list/_ref?type=${storePost && storePost.type}&pg=1`);
-        } else if(prevState.storeDeleteError !== error) {
+            postAction.reset_delete_post_element_by_id();
+            history.push(`/bbs/list/_ref?type=${storePost && storePost.type}&pg=1`);
+        } else if(error !== null && error !== prevState.storeDeleteError) {
             alert(`게시글 삭제 중 다음과 같은 오류가 발생 했습니다.\n오류 내용 : ${error}`);
-            this.props.postAction.reset_update_post_context();
-            this.props.history.push(`/bbs/list/_ref?type=${storePost && storePost.type}&pg=1`);
+            postAction.reset_update_post_context();
+            history.push(`/bbs/list/_ref?type=${storePost && storePost.type}&pg=1`);
         }
     }
 

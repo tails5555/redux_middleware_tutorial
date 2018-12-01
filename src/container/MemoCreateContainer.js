@@ -44,10 +44,10 @@ class MemoCreateContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         const { memo, error } = this.props.memoSave;
-        if(memo !== null && prevProps.memo !== memo) {
+        if(memo !== null && prevProps.memoSave.memo !== memo) {
             alert(`${memo && memo.writer} 님이 작성하신 메모장이 등록 되었습니다.`);
             this.props.history.push('/memo/list/_ref?pg=1');
-        } else if(error !== null && prevProps.error !== error) {
+        } else if(error !== null && prevProps.memoSave.error !== error) {
             alert(`메모장 작성 중 다음과 같은 오류가 발생 했습니다.\n오류 내용 : ${error}`);
             this.props.history.push('/');
         }

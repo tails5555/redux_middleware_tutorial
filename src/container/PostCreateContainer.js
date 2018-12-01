@@ -65,12 +65,13 @@ class PostCreateContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        const { post, error } = this.props.postSave;
-        if(post !== null && prevProps.post !== post) {
+        const { history, postAction, postSave } = this.props;
+        const { post, error } = postSave;
+        if(post !== null && post !== prevProps.postSave.post) {
             alert(`${post && post.writer} 님이 작성하신 글이 등록 되었습니다.`);
-            this.props.postAction.reset_create_post_context();
-            this.props.history.push(`/bbs/list/_ref?type=${post && post.type}&pg=1`);
-        } else if(error !== null && prevProps.error !== error) {
+            postAction.reset_create_post_context();
+            history.push(`/bbs/list/_ref?type=${post && post.type}&pg=1`);
+        } else if(error !== null && error !== prevProps.postSave.error) {
             alert(`게시글 작성 중 다음과 같은 오류가 발생 했습니다.\n오류 내용 : ${error}`);
             this.props.postAction.reset_create_post_context();
             this.props.history.push('/');

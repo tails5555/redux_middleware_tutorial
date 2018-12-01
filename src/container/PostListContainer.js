@@ -35,7 +35,7 @@ class PostListContainer extends React.Component {
 
         const { typeAction, postAction } = this.props;
         typeAction.fetch_bbs_type_element_by_id(queryModel && queryModel.type);
-        postAction.fetch_post_list_by_query(queryModel)
+        postAction.fetch_post_list_by_query(queryModel);
     }
 
     static getDerivedStateFromProps(nextProps, prevState){

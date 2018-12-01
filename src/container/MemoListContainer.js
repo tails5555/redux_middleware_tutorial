@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchMemos : (queryModel) => dispatch(fetch_memo_list(queryModel))
+    fetchMemosByQueryModel : (queryModel) => dispatch(fetch_memo_list(queryModel))
 });
 
 class MemoListContainer extends React.Component {
@@ -26,8 +26,8 @@ class MemoListContainer extends React.Component {
         const { query } = this.state;
         const queryModel = queryString.parse(query);
 
-        const { fetchMemos } = this.props;
-        fetchMemos(queryModel);
+        const { fetchMemosByQueryModel } = this.props;
+        fetchMemosByQueryModel(queryModel);
     }
 
     static getDerivedStateFromProps(nextProps, prevState){

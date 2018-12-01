@@ -120,12 +120,11 @@ class PostEditForm extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        const { location } = this.props;
+        const { location, history } = this.props;
         const { storePost, storePostError } = prevState;
         if(storePost !== null && location.pathname.includes('edit')) {
             this.props.change('postId', storePost && storePost.id);
         } else if(storePostError !== this.state.storePostError) {
-            const { history } = this.props;
             const { search } = location;
             const queryModel = queryString.parse(search);
             queryModel['id'] = undefined;

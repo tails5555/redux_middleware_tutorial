@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 class PostUpdateContainer extends React.Component {
     constructor(props){
         super(props);
-        this.state = { storeTypes : [], storeTypesLoading : false, storeTypesError : null, storeElement : null, storeElementLoading : false, storeElementError : null, openModal : false };
+        this.state = { storeTypes : [], storeTypesLoading : false, storeTypesError : null, storeElement : null, storeElementLoading : false, storeElementError : null, storeSaveLoading : false };
     }
 
     componentDidMount(){
@@ -38,7 +38,7 @@ class PostUpdateContainer extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        const { typeList, postElement } = nextProps;
+        const { typeList, postElement, postSave } = nextProps;
         if(
             prevState.storeTypes !== typeList.types ||
             prevState.storeLoading !== typeList.loading ||
@@ -46,7 +46,7 @@ class PostUpdateContainer extends React.Component {
             prevState.storeElement !== postElement.post ||
             prevState.storeElementLoading !== postElement.loading ||
             prevState.storeElementError !== postElement.error ||
-            prevState.openModal !== nextProps.postSave.loading
+            prevState.storeSaveLoading !== postSave.loading
         ) {
             return {
                 storeTypes : typeList.types,
@@ -55,7 +55,7 @@ class PostUpdateContainer extends React.Component {
                 storeElement : postElement.post,
                 storeElementLoading : postElement.loading,
                 storeElementError : postElement.error,
-                openModal : nextProps.postSave.loading
+                storeSaveLoading : postSave.loading
             };
         }
         return null;
@@ -76,15 +76,18 @@ class PostUpdateContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        const { post, error } = this.props.postSave;
-        if(post !== null && prevProps.post !== post) {
+        const { history, location, postAction, postSave } = this.props;
+        const { post, error } = postSave;
+        if(post !== null && post !== prevProps.postSave.post) {
             alert(`${post && post.writer} 님이 작성하신 글이 수정 되었습니다.`);
-            this.props.postAction.reset_update_post_context();
-            this.props.history.push(`/bbs/list/_ref?type=${post && post.type}&pg=1`);
-        } else if(error !== null && prevProps.error !== error) {
+            postAction.reset_update_post_context();
+            let queryModel = queryString.parse(location.search);
+            queryModel['type'] = post && post.type;
+            history.push(`/bbs/view?${queryString.stringify(queryModel)}`);
+        } else if(error !== null && error !== prevProps.postSave.error) {
             alert(`게시글 작성 중 다음과 같은 오류가 발생 했습니다.\n오류 내용 : ${error}`);
-            this.props.postAction.reset_update_post_context();
-            this.props.history.push('/');
+            postAction.reset_update_post_context();
+            history.push('/');
         }
     }
 
@@ -94,9 +97,20 @@ class PostUpdateContainer extends React.Component {
     }
 
     render() {
-        const { storeTypes, storeTypesLoading, storeTypesError, storeElement, storeElementLoading, storeElementError, openModal } = this.state;
+        const { storeTypes, storeTypesLoading, storeTypesError, storeElement, storeElementLoading, storeElementError, storeSaveLoading } = this.state;
+        
+        let loadView = (
+            <Modal isOpen={storeElementLoading}>
+                <ModalHeader>게시글을 불러오는 중입니다...</ModalHeader>
+                <ModalBody>
+                    <h1 className="text-center"><i className="fa fa-spinner fa-spin" /></h1>
+                    <h2 className="text-center">잠시만 기다려 주세요!!!</h2>
+                </ModalBody>
+            </Modal>
+        );
+
         let saveView = (
-            <Modal isOpen={openModal}>
+            <Modal isOpen={storeSaveLoading}>
                 <ModalHeader>게시글을 수정하는 중입니다...</ModalHeader>
                 <ModalBody>
                     <h1 className="text-center"><i className="fa fa-spinner fa-spin" /></h1>
@@ -104,6 +118,7 @@ class PostUpdateContainer extends React.Component {
                 </ModalBody>
             </Modal>
         );
+
         return (
             <Container style={{ padding : '10px' }}>
                 <div id="post_update_title" style={{ margin : '10px' }}>
@@ -120,7 +135,10 @@ class PostUpdateContainer extends React.Component {
                         storePostError={storeElementError}
                     />
                 </div>
-                <div id="post_create_loading_modal">
+                <div id="post_element_loading_modal">
+                    {loadView}
+                </div>
+                <div id="post_update_loading_modal">
                     {saveView}
                 </div>
             </Container>
