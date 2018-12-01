@@ -200,7 +200,7 @@ const update_post_context_trying = () => ({
 
 const update_post_context_success = (response) => ({
     type : UPDATE_POST_CONTEXT_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 const update_post_context_failure = (error) => ({

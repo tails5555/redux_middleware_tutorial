@@ -2,13 +2,15 @@ import {
     FETCH_MEMO_LIST, FETCH_MEMO_LIST_SUCCESS, FETCH_MEMO_LIST_FAILURE,
     FETCH_MEMO_ELEMENT_BY_ID, FETCH_MEMO_ELEMENT_BY_ID_SUCCESS, FETCH_MEMO_ELEMENT_BY_ID_FAILURE, RESET_FETCH_MEMO_ELEMENT_BY_ID,
     CREATE_MEMO_CONTEXT, CREATE_MEMO_CONTEXT_SUCCESS, CREATE_MEMO_CONTEXT_FAILURE,
-    UPDATE_MEMO_CONTEXT, UPDATE_MEMO_CONTEXT_SUCCESS, UPDATE_MEMO_CONTEXT_FAILURE
+    UPDATE_MEMO_CONTEXT, UPDATE_MEMO_CONTEXT_SUCCESS, UPDATE_MEMO_CONTEXT_FAILURE,
+    DELETE_MEMO_ELEMENT_BY_ID, DELETE_MEMO_ELEMENT_BY_ID_SUCCESS, DELETE_MEMO_ELEMENT_BY_ID_FAILURE
 } from '../action/action_memo';
 
 const INITIAL_STATE = {
     memoList : { loading : false, memos : [], error : null, count : 0 },
     memoElement : { loading : false, memo : null, error : null },
     memoSave : { loading : false, memo : null, error : null },
+    memoDelete : { loading : false, status : null, error : null }
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -40,6 +42,12 @@ export default function(state = INITIAL_STATE, action) {
         case UPDATE_MEMO_CONTEXT_FAILURE :
             return { ...state, memoSave : { ...state.memoSave, loading : false, error : action.payload }};
 
+        case DELETE_MEMO_ELEMENT_BY_ID : 
+            return { ...state, memoDelete : { loading : true, error : null, status : null }};
+        case DELETE_MEMO_ELEMENT_BY_ID_SUCCESS :
+            return { ...state, memoDelete : { loading : false, error : null, status : action.payload }};
+        case DELETE_MEMO_ELEMENT_BY_ID_FAILURE :
+            return { ...state, memoDelete : { ...state.memoDelete, loading : false, error : null }};
         default :
             return state;
     }

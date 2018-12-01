@@ -36,7 +36,7 @@ export const fetch_memo_element_by_id = (id) => ({
 
 export const fetch_memo_element_by_id_success = (response) => ({
     type : FETCH_MEMO_ELEMENT_BY_ID_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 export const fetch_memo_element_by_id_failure = (error) => ({
@@ -59,7 +59,7 @@ export const create_memo_context = (memoModel) => ({
 
 export const create_memo_context_success = (response) => ({
     type : CREATE_MEMO_CONTEXT_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 export const create_memo_context_failure = (error) => ({
@@ -79,10 +79,29 @@ export const update_memo_context = (memoId, memoModel) => ({
 
 export const update_memo_context_success = (response) => ({
     type : UPDATE_MEMO_CONTEXT_SUCCESS,
-    payload : response.data
+    payload : response && response.data
 });
 
 export const update_memo_context_failure = (error) => ({
     type : UPDATE_MEMO_CONTEXT_FAILURE,
+    payload : error
+});
+
+export const DELETE_MEMO_ELEMENT_BY_ID = 'DELETE_MEMO_ELEMENT_BY_ID';
+export const DELETE_MEMO_ELEMENT_BY_ID_SUCCESS = 'DELETE_MEMO_ELEMENT_BY_ID_SUCCESS';
+export const DELETE_MEMO_ELEMENT_BY_ID_FAILURE = 'DELETE_MEMO_ELEMENT_BY_ID_FAILURE';
+
+export const delete_memo_element_by_id = (memoId) => ({
+    type : DELETE_MEMO_ELEMENT_BY_ID,
+    memoId
+});
+
+export const delete_memo_element_by_id_success = (response) => ({
+    type : DELETE_MEMO_ELEMENT_BY_ID_SUCCESS,
+    payload : response && response.status
+});
+
+export const delete_memo_element_by_id_failure = (error) => ({
+    type : DELETE_MEMO_ELEMENT_BY_ID_FAILURE,
     payload : error
 });

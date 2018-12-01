@@ -51,6 +51,11 @@ class MemoElementView extends React.Component {
         history.push(`/memo/edit${location.search}`);
     }
 
+    handleClickDelete = () => {
+        const { deleteLambda } = this.props;
+        deleteLambda();
+    }
+
     render(){
         const { memo, loading, error } = this.state;
         return error === null ? 
@@ -68,7 +73,7 @@ class MemoElementView extends React.Component {
                         <div id="button_div_box" className="d-flex justify-content-end">
                             <Button style={{ margin : '10px' }} color="info" onClick={() => this.handleClickPushBack()}><i className="fas fa-arrow-left" /> 이전으로</Button>
                             <Button style={{ margin : '10px' }} color="primary" onClick={() => this.handleClickPushEdit()}><i className="fas fa-edit" /> 수정하기</Button>
-                            <Button style={{ margin : '10px' }} color="danger"><i className="fas fa-trash" /> 삭제하기</Button>
+                            <Button style={{ margin : '10px' }} color="danger" onClick={() => this.handleClickDelete()}><i className="fas fa-trash" /> 삭제하기</Button>
                         </div>
                     </CardBody>
                 </Card>

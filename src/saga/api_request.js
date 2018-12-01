@@ -49,3 +49,10 @@ export const update_memo_api = (memoId, memoModel) => {
         data : memoFormModel
     });
 }
+
+export const delete_memo_api = (memoId) => {
+    return axios({
+        url : `${ROOT_URL}/${memoId}`,
+        method : 'delete'
+    });
+}

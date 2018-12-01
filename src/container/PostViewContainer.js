@@ -79,7 +79,7 @@ class PostViewContainer extends React.Component {
             queryModel['id'] = undefined;
             alert(`게시물을 불러오는 도중 오류가 발생했습니다. 이전으로 돌아갑니다.\n오류 내용 : ${storeError}`);
             history.push(`/bbs/list?${queryString.stringify(queryModel)}`);
-        } else if(status !== null && status === 204) {
+        } else if(status !== null && status !== prevState.storeDeleteStatus && status === 204) {
             alert(`${storePost.writer} 님이 작성한 글이 삭제 되었습니다.`);
             postAction.reset_delete_post_element_by_id();
             history.push(`/bbs/list/_ref?type=${storePost && storePost.type}&pg=1`);

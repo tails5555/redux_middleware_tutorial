@@ -42,3 +42,13 @@ export function* update_memo_context_saga(action){
         yield put(MemoActions.update_memo_context_failure(error && error.message));
     }
 }
+
+export function* delete_memo_element_saga(action){
+    yield call(delay, 2000);
+    try {
+        const response = yield call(MemoAPI.delete_memo_api, action.memoId);
+        yield put(MemoActions.delete_memo_element_by_id_success(response));
+    } catch (error) {
+        yield put(MemoActions.delete_memo_element_by_id_failure(error && error.message));
+    }
+}
