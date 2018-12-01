@@ -8,3 +8,5 @@ export { default as PostElementView } from './PostElementView';
 export { default as MemoCardListView } from './MemoCardListView';
 
 export { default as MemoElementView } from './MemoElementView';
+
+export { default as MemoEditForm } from './MemoEditForm';

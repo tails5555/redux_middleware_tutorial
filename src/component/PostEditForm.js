@@ -68,7 +68,7 @@ const validateAndSaving = (values, dispatch) => {
 class PostEditForm extends React.Component {
     constructor(props){
         super(props);
-        this.state = { post : null, storeTypes : [], storeTypesLoading : false, storeTypesError : null, storePost : null, storePostLoading : false, storePostError : null };    
+        this.state = { storeTypes : [], storeTypesLoading : false, storeTypesError : null, storePost : null, storePostLoading : false, storePostError : null };    
     }
 
     static getDerivedStateFromProps(nextProps, prevState){

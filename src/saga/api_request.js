@@ -24,3 +24,11 @@ export const fetch_memo_element_api = (id) => {
         method : 'get'
     });
 }
+
+export const create_memo_api = (memoModel) => {
+    return axios({
+        url : ROOT_URL,
+        method : 'post',
+        data : memoModel
+    });
+}

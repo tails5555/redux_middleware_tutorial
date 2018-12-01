@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
-import { fetch_memo_element_by_id } from '../action/action_memo';
+import { fetch_memo_element_by_id, reset_fetch_memo_element_by_id } from '../action/action_memo';
 import { MemoElementView } from '../component';
 
 const mapStateToProps = (state) => ({
@@ -12,7 +12,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchMemoElementById : (id) => dispatch(fetch_memo_element_by_id(id))
+    fetchMemoElementById : (id) => dispatch(fetch_memo_element_by_id(id)),
+    resetFetchMemoElementById : () => dispatch(reset_fetch_memo_element_by_id())
 });
 
 class MemoViewContainer extends React.Component {
@@ -57,9 +58,14 @@ class MemoViewContainer extends React.Component {
         return false;
     }
 
+    componentWillUnmount(){
+        const { resetFetchMemoElementById } = this.props;
+        resetFetchMemoElementById();
+    }
+
     render(){
         const { storeMemo, storeLoading, storeError } = this.state;
-        
+
         let fetchLoadingView = (
             <Modal isOpen={storeLoading}>
                 <ModalHeader>메모를 불러오는 중 입니다.</ModalHeader>
