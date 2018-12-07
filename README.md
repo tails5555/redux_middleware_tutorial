@@ -213,7 +213,11 @@ const fetch_post_by_id_failure = (error) => ({
 
 ![redux_saga_logo](./image/redux_saga_logo.png)
 
-- 공부하면서 작성 하겠습니다.
+Redux Saga 는 현재까지 나온 Redux Middleware 에서 Application 의 Side Effect(비동기 Fetching 등) 의 응집도를 높여줍니다.
+
+그렇지만 Redux Saga 를 사용하기 위해 Generator 개념을 새로 공부 하셔야 됩니다.
+
+
 
 ## About Project
 
